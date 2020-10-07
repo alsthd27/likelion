@@ -31,7 +31,7 @@ SECRET_KEY = ')2&2br*9w*zpi#iy%-4l0-^b$fh1b&hvm2_y9+($e_r%2ss-d6'
 DEBUG = True
 
 # 프로젝트 접근가능 호스트 설정. 도메인을 string으로 삽입. 지금은 일단 모두 허용하기 위해 *로 설정.
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
