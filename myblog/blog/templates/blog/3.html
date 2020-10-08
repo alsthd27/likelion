@@ -1,5 +1,10 @@
+<!-- 순서 주의할 것!!!! extends 다음에 load static이 나와야 한다. -->
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
 <h1>333</h1>
+<img style="width:30%" src="{% static 'images/profile.jpg' %}" alt="profile image">
+<p>송 요 민</p>
 {% endblock %}
+ㄴ
