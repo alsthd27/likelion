@@ -59,11 +59,11 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'myblog.urls'
 
-# 템플릿 해석엔진 및 경로 변경 시 사용.
+# 템플릿 해석엔진 및 경로 변경 시 사용. DIRS에 템플릿 폴더 경로 설정.
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'myblog', 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
