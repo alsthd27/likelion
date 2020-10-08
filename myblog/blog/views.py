@@ -17,3 +17,7 @@ def two(request):
 
 def three(request):
     return render(request, 'blog/3.html')
+
+
+def new(request):
+    return render(request, 'blog/new.html')
