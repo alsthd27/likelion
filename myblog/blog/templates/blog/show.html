@@ -5,6 +5,10 @@
     <h1>글 #{{ post.id }} 상세 보기</h1>
     <h3>글 제목 : {{ post.title }}</h3>
     <h3>글 내용 : {{ post.content }}</h3>
+    <h3>사진:</h3><br>
+    {% if post.image %}
+        <img src="{{ post.image.url }}" alt="사진"> <!-- img src는 해당 이미지의 URL을 입력해야하므로 {{ post.image }}를 입력하면 말이 안 되겠죵~~?~?~ -->
+    {% endif %}
     <h3>작성 시각 : {{ post.created_at }}</h3>
     <h3>수정 시각 : {{ post.updated_at }}</h3>
     <a href="{% url 'blog:update' post.pk %}" class="btn btn-primary">수정</a>

@@ -4,7 +4,7 @@
 <div class="container">
     <h1>글쓰기</h1>
     <!-- action은 '데이터를 보낼 곳', method는 'GET, POST 등 데이터를 보내는 방식'. -->
-    <form action="{% url 'blog:create' %}" method="POST">
+    <form action="{% url 'blog:create' %}" method="POST" enctype="multipart/form-data"> <!-- 이미지를 input으로 처리할 때는 반드시 enctype을 넣어줘야 한다. -->
         <!-- Cross Site Request Forgery 공격 방지토큰 생성태그. 반드시 form 내부에 삽입해야 함. -->
         {% csrf_token %}
         <div class="form-group">
@@ -15,6 +15,10 @@
         <div class="form-group">
             <label for="content">글 내용</label>
             <textarea class="form-control" name="content" id="content" placeholder="내용을 입력해 주세요..."></textarea>
+        </div>
+        <div class="form-group">
+            <label>이미지 첨부</label>
+            <input type="file" class="form-control" name="image" accept="image/*"> <!-- accept="images/*"는 이미지 파일의 모든 확장자를 업로드 할 수 있도록 하겠다는 의미. -->
         </div>
         <input type="submit" value="글 작성" class="btn btn-outline-primary">
     </form>

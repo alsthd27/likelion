@@ -3,7 +3,7 @@
 {% block content %}
 <div class="container">
     <h1>글 수정하기</h1>
-    <form action="{% url 'blog:update' post.pk %}" method="POST"> <!-- new.html과는 다르게 post.pk 값이 들어간 걸 볼 수 있졔~~~? -->
+    <form action="{% url 'blog:update' post.pk %}" method="POST" enctype="multipart/form-data"> <!-- new.html과는 다르게 post.pk 값이 들어간 걸 볼 수 있졔~~~? -->
         {% csrf_token %}
         <div class="form-group">
             <label for="title">글 제목</label>
@@ -12,6 +12,10 @@
         <div class="form-group">
             <label for="content">글 내용</label>
             <textarea class="form-control" name="content" id="content" placeholder="내용을 입력해 주세요...">{{ post.content }}</textarea>
+        </div>
+        <div class="form-group">
+            <label>이미지 첨부</label>
+            <input type="file", class="form-control" name="image" accept="image/*">
         </div>
         <input type="submit" value="글 수정" class="btn btn-outline-primary">
     </form>

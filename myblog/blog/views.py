@@ -18,7 +18,8 @@ def create(request):
     if request.method == "POST":
         post_title = request.POST.get('title')
         post_content = request.POST.get('content')
-        Post.objects.create(title=post_title, content=post_content)
+        post_image = request.FILES.get('image')
+        Post.objects.create(title=post_title, content=post_content, image=post_image)
     return redirect('blog:main') # blog:main이라는 URL로 이동 -> blog.views에서 main 함수 실행 -> blog/main.html을 render
 
 
@@ -32,6 +33,7 @@ def update(request, post_id):
     if request.method == "POST":
         post.title = request.POST['title'] # 딕셔너리 자료형으로서 'key에 해당하는 value를 가져오는 방법'은 두 가지가 있다. 하나는 변수명.get('key')이고 다른 하나는 변수명['key']이다.
         post.content = request.POST['content']
+        post.image = request.FILES.get('image') # 파일 객체를 불러올 때는 request.FILES.get()을 사용한다.
         post.save()
         return redirect('blog:show', post.pk)
     return render(request, 'blog/edit.html', {'post': post})
