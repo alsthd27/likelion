@@ -20,3 +20,8 @@ def create(request):
         post_content = request.POST.get('content')
         Post.objects.create(title=post_title, content=post_content)
     return redirect('blog:main') # blog:main이라는 URL로 이동 -> blog.views에서 main 함수 실행 -> blog/main.html을 render
+
+
+def show(request, post_id): # 특정 글을 가져오려면 해당 글의 고유 id를 알아야겠지??
+    post = Post.objects.get(pk=post_id) # pk = primary key (id와 비슷한 뜻)
+    return render(request, 'blog/show.html', {'post': post})
