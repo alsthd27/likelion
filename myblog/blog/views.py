@@ -1,5 +1,5 @@
 # render는 '템플릿을 불러오는 것', redirect는 'URL로 이동하는 것(해당 URL의 views 함수를 실행하는 것)'.
-from django.shortcuts import render, redirect # "django.shortcuts 패키지에 있는 render 함수 등을 사용하로독 하겄따잉!"
+from django.shortcuts import render, redirect, get_object_or_404 # "django.shortcuts 패키지에 있는 render 함수 등을 사용하로독 하겄따잉!"
 from .models import Post
 
 # 함수와 함수 사이는 두 줄 간격이 좋다!
@@ -25,3 +25,13 @@ def create(request):
 def show(request, post_id): # 특정 글을 가져오려면 해당 글의 고유 id를 알아야겠지??
     post = Post.objects.get(pk=post_id) # pk = primary key (id와 비슷한 뜻)
     return render(request, 'blog/show.html', {'post': post})
+
+
+def update(request, post_id):
+    post = get_object_or_404(Post, pk=post_id) # get_object_or_404는 해당 객체가 존재하면 불러오고 존재하지 않으면 404 에러를 낸다.
+    if request.method == "POST":
+        post.title = request.POST['title'] # 딕셔너리 자료형으로서 'key에 해당하는 value를 가져오는 방법'은 두 가지가 있다. 하나는 변수명.get('key')이고 다른 하나는 변수명['key']이다.
+        post.content = request.POST['content']
+        post.save()
+        return redirect('blog:show', post.pk)
+    return render(request, 'blog/edit.html', {'post': post})
