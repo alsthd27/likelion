@@ -3,12 +3,13 @@
 {% block content %}
 <div class="container">
     <h1>글쓰기</h1>
-    <!-- action은 '데이터를 어디로 보낼 것인가', method는 '데이터를 GET, POST 등 어떤 방식으로 보낼 것인가' -->
-    <form action="#" method="POST">
+    <!-- action은 '데이터를 보낼 곳', method는 'GET, POST 등 데이터를 보내는 방식'. -->
+    <form action="{% url 'blog:create' %}" method="POST">
         <!-- Cross Site Request Forgery 공격 방지토큰 생성태그. 반드시 form 내부에 삽입해야 함. -->
         {% csrf_token %}
         <div class="form-group">
             <label for="title">글 제목</label>
+            <!-- input 태그의 name은 views.py의 get 값으로 쓰임. -->
             <input type="text" class="form-control" name="title" id="title" placeholder="제목을 입력해주세요." required>
         </div>
         <div class="form-group">

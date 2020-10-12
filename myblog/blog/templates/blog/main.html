@@ -1,8 +1,21 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1>2020 DGULION</h1>
-<a href="{% url 'blog:one' %}">one</a>
-<a href="{% url 'blog:two' %}">two</a>
-<a href="{% url 'blog:three' %}">three</a>
+<div class="container">
+    <h1>글 목록</h1>
+    <div class="row">
+        <!-- views.py의 main 함수에서 모든 Post 객체를 all_posts라는 변수에 담고, 그걸 posts라 명명했던 거 기억나졔~~~~??? -->
+        {% for post in posts %} <!-- posts(모든 Post 객체) 속에 있는 각각의 post를 하나씩 꺼내서 반복문을 돌린다. -->
+            <div class="col-md-4 col-12">
+                <div class="card" style="width: 18rem; margin-top: 20px;">
+                    <div class="card-body">
+                        <!--  -->
+                        <h5 class="card-title">{{ post.title }}</h5>
+                        <a href="#" class="btn btn-primary">상세보기</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
 {% endblock %}
