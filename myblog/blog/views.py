@@ -35,3 +35,9 @@ def update(request, post_id):
         post.save()
         return redirect('blog:show', post.pk)
     return render(request, 'blog/edit.html', {'post': post})
+
+
+def delete(request, post_id):
+    post = get_object_or_404(Post, pk=post_id)
+    post.delete()
+    return redirect('blog:main')

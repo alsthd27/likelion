@@ -8,5 +8,6 @@
     <h3>작성 시각 : {{ post.created_at }}</h3>
     <h3>수정 시각 : {{ post.updated_at }}</h3>
     <a href="{% url 'blog:update' post.pk %}" class="btn btn-primary">수정</a>
+    <a href="{% url 'blog:delete' post.pk %}" class="btn btn-danger">삭제</a>
 </div>
 {% endblock %}

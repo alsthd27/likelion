@@ -8,4 +8,5 @@ urlpatterns = [
     path('create/', create, name="create"),
     path('<int:post_id>/', show, name="show"), # <int:id>는 id라는 이름을 가진 integer 값을 말함.
     path('<int:post_id>/edit/', update, name="update"),
+    path('<int:post_id>/delete/', delete, name="delete"),
 ]
