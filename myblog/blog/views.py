@@ -93,11 +93,19 @@ def delete(request, post_id):
 @login_required
 def post_like(request, post_id):
     post = get_object_or_404(Post, pk=post_id)
-    if request.user in post.like_user_set.all():
-        post.like_user_set.remove(request.user)
+    if request.user in post.like_user_set.all(): # post와 user의 모든 쌍들(게시글에 좋아요를 누른 모든 유저들) 중 요청을 보낸 유저가 포함돼있다면
+        post.like_user_set.remove(request.user) # 이미 그 유저는 좋아요를 눌렀다는 뜻이므로, 이 요청은 좋아요를 취소해달라는 거겠지? 그니까 remove
     else:
-        post.like_user_set.add(request.user)
-    if request.GET.get('redirect_to') == 'show':
-        return redirect('blog:show', post_id)
+        post.like_user_set.add(request.user) # 그게 아니면 add
+    if request.GET.get('redirect_to') == 'show': # 만약 요청이 redirect_to=show라는 GET 방식으로 왔다면
+        return redirect('blog:show', post_id) # post_id에 해당하는 show로 redirect
+    elif request.GET.get('redirect_to') == 'like_list':
+        return redirect('blog:like_list')
     else:
-        return redirect('blog:main')
+        return redirect('blog:main') # 아니면 main으로 redirect
+
+
+@login_required
+def like_list(request):
+    likes = Like.objects.filter(user=request.user).order_by('-created_at')
+    return render(request, 'blog/like_list.html', {'likes': likes})

@@ -29,9 +29,10 @@ class Post(models.Model):
     def like_count(self): # 얘는 게시글에 달린 좋아요의 갯수를 세는 함수다. self는 모델의 객체를 의미한다. Post가 아니라 post에 달린 좋아요 갯수를 셀 거니까.
         '''
         아쒸발이해가잘안된당
-        일단 Like 모델링 (Post 객체와 User 객체를 한 쌍으로 연결 / post와 user를 Like 모델에 저장) ->
-        지금 이 Post 모델에 like_user_set 속성 추가 (User 모델과 M:N 관계 형성 / Like 모델의 데이터를 Post와 User의 M:N 관계와 연결) ->
-        데코레이터로 지금 이 like_count 함수 생성 (post에 좋아요 표시를 한 user 데이터 갯수를 카운트 / 결국 Like 모델 객체의 갯수를 카운트)   
+        일단 Like 모델링 (post와 user의 쌍을 Like 모델에 저장) ->
+        Post 모델에 like_user_set 속성 추가 (Like 모델을 거쳐서 User(M):Post(N) 관계 형성) ->
+        결국 like_user_set 속성은 post와 user의 쌍을 의미 (post.like_user_set.all()이라고 하면 모든 쌍들을 의미) ->
+        like_count 함수 생성 (Post 객체 중 User 객체와 쌍을 이루는 객체 수를 카운트)
         '''
         return self.like_user_set.count()
 

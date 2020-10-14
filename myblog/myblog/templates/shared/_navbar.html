@@ -9,6 +9,9 @@
         <li class="nav-item">
           <a class="nav-link" href="{% url 'blog:new' %}">글쓰기</a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'blog:like_list' %}">즐겨찾기</a>
+        </li>
       </ul>
       <ul class="navbar-nav mr-0"> <!-- 이게 if문 안에 위치하면 else의 영향을 받아서 그런지, 로그인 전에는 부트스트랩이 안 먹고 로그인 후에는 부투스트랩이 먹음. -->
         <!-- Django-allauth 관련

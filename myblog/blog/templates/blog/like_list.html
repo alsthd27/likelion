@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    {% if user.is_authenticated %}
+        <h1>좋아요를 누른 글 목록</h1>
+        <div class="row">
+            {% for like in likes %}
+                <div class="col-md-4 col-12">
+                    <div class="card" style="width: 18rem; margin-top: 20px;">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ like.post.title }}</h5>
+                            <p>{{ like.post.view_count }}회 조회</p>
+                            <p>{{ like.post.created_at }} 작성</p>
+                            <!-- 좋아요 버튼 -->
+                            <a href="{% url 'blog:post_like' like.post.pk %}?redirect_to=like_list">
+                            {% if not user in post.like_user_set.all %}
+                                <i class="fas fa-heart"></i>
+                            {% else %}
+                                <i class="far fa-heart"></i>
+                            {% endif %}
+                            </a>
+                            <a href="{% url 'blog:show' like.post.pk %}" class="btn btn-primary">상세 보기</a>
+                        </div>
+                    </div>
+                    <p>{{ like.created_at }}에 좋아함</p>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <h3>로그인 후 이용이 가능합니다.</h3>
+        <a href="{% url 'account_login' %}" class="btn btn-warning">로그인</a>
+        <a href="{% url 'account_signup' %}" class="btn btn-warning">회원가입</a>
+    {% endif %}
+</div>
+{% endblock %}
