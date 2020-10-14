@@ -17,9 +17,10 @@ def new(request):
 def create(request):
     if request.method == "POST":
         post_title = request.POST.get('title')
+        post_writer = request.user # 요청을 보낸 user의 정보!
         post_content = request.POST.get('content')
         post_image = request.FILES.get('image')
-        Post.objects.create(title=post_title, content=post_content, image=post_image)
+        Post.objects.create(title=post_title, writer=post_writer, content=post_content, image=post_image)
     return redirect('blog:main') # blog:main이라는 URL로 이동 -> blog.views에서 main 함수 실행 -> blog/main.html을 render
 
 

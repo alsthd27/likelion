@@ -4,6 +4,11 @@
 <div class="container">
     <h1>글 #{{ post.id }} 상세 보기</h1>
     <h3>글 제목 : {{ post.title }}</h3>
+    {% if post.writer %} <!-- User 모델 사용 전에 작성된 게시글은 유저가 없다고 봐야하므로 if문 활용. -->
+    <h3>작성자 : {{ post.writer }}</h3>
+    {% else %}
+    <h3>작성자 : 알 수 없음</h3>
+    {% endif %}
     <h3>글 내용 : {{ post.content }}</h3>
     <h3>사진:</h3><br>
     {% if post.image %}
@@ -11,7 +16,9 @@
     {% endif %}
     <h3>작성 시각 : {{ post.created_at }}</h3>
     <h3>수정 시각 : {{ post.updated_at }}</h3>
+    {% if user == post.writer %} <!-- 게시글 작성자(post.writer)와 유저(user)가 일치할 경우에만 수정, 삭제 버튼 노출 -->
     <a href="{% url 'blog:update' post.pk %}" class="btn btn-primary">수정</a>
     <a href="{% url 'blog:delete' post.pk %}" class="btn btn-danger">삭제</a>
+    {% endif %}
 </div>
 {% endblock %}

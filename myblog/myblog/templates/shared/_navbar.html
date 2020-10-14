@@ -13,7 +13,7 @@
       <ul class="navbar-nav mr-0"> <!-- 이게 if문 안에 위치하면 else의 영향을 받아서 그런지, 로그인 전에는 부트스트랩이 안 먹고 로그인 후에는 부투스트랩이 먹음. -->
         <!-- Django-allauth 관련
           user는 현재 로그인 한 유저 정보
-          is_authenticated는 인증된 유저인지 확인하는 속성(User의 모든 객체가 True 값을 가짐)
+          is_authenticated는 인증된 유저인지 확인하는 속성(User 모델의 모든 객체가 True 값을 가짐)
           유저가 로그인을 하면 user.is_authenticated는 True가 되어 navbar에 '로그아웃', '비밀번호 변경'이 표시됨.
           유저가 로그인하지 않은 상태면 user.is_authenticated는 False가 되어 else로 넘어가고, '로그인', '회원가입'이 표시됨.
           참고로 각 URL들은 Django-allauth에서 지정해놓은 거~~~
