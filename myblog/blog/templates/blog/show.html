@@ -22,6 +22,14 @@
     {% endif %}
     <h3>작성 시각 : {{ post.created_at }}</h3>
     <h3>수정 시각 : {{ post.updated_at }}</h3>
+    <!-- 좋아요 버튼 -->
+    <a href="{% url 'blog:post_like' post.pk %}?redirect_to=show"> <!-- ?redirect_to=show를 GET으로 request -->
+        {% if user in post.like_user_set.all %}
+            <i class="fas fa-heart"></i>
+        {% else %}
+            <i class="far fa-heart"></i>
+        {% endif %}
+    </a>
     {% if user == post.writer %} <!-- 게시글 작성자(post.writer)와 유저(user)가 일치할 경우에만 수정, 삭제 버튼 노출 -->
     <a href="{% url 'blog:update' post.pk %}" class="btn btn-primary">수정</a>
     <a href="{% url 'blog:delete' post.pk %}" class="btn btn-danger">삭제</a>

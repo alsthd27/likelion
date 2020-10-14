@@ -33,7 +33,17 @@ class Post(models.Model):
         지금 이 Post 모델에 like_user_set 속성 추가 (User 모델과 M:N 관계 형성 / Like 모델의 데이터를 Post와 User의 M:N 관계와 연결) ->
         데코레이터로 지금 이 like_count 함수 생성 (post에 좋아요 표시를 한 user 데이터 갯수를 카운트 / 결국 Like 모델 객체의 갯수를 카운트)   
         '''
-        return self.like_user_set.count() 
+        return self.like_user_set.count()
+
+
+class Like(models.Model): # User와 Post 두 모델의 데이터를 저장할 중간(intermediate) 모델
+    user = models.ForeignKey(User, on_delete=models.CASCADE) # user(1) : Like(N) 한 명의 사용자가 여러 게시글에 좋아요를 달 수 있다.
+    post = models.ForeignKey(Post, on_delete=models.CASCADE) # post(1) : Like(N) 한 게시글에 여러 개의 좋아요가 달릴 수 있다.
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta: # 모델 안에 메타데이터를 추가할 수 있다. 모델 단위에서 설정할 수 있는 옵션이라 생각하면 된다. 모델 필드 아래쪽에 반드시 한 줄 공백을 줘야 한다.
+        unique_together = (('user', 'post')) #unique_together는 '함께 유일해야 하는 필드의 쌍'을 의미한다. A 유저가 B 게시글에 누른 좋아요가 중복될 수는 없으니까.
 
 
 class Comment(models.Model):
@@ -70,13 +80,3 @@ class Comment(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='comments')
     created_at = models.DateTimeField(auto_now_add = True)
     updated_at = models.DateTimeField(auto_now = True)
-
-
-class Like(models.Model): # User와 Post 두 모델의 데이터를 저장할 중간(intermediate) 모델
-    user = models.ForeignKey(User, on_delete=models.CASCADE) # user(1) : Like(N) 한 명의 사용자가 여러 게시글에 좋아요를 달 수 있다.
-    post = models.ForeignKey(Post, on_delete=models.CASCADE) # post(1) : Like(N) 한 게시글에 여러 개의 좋아요가 달릴 수 있다.
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-
-    class Meta: # 모델 안에 메타데이터를 추가할 수 있다. 모델 단위에서 설정할 수 있는 옵션이라 생각하면 된다. 모델 필드 아래쪽에 반드시 한 줄 공백을 줘야 한다.
-        unique_together = (('user', 'post')) #unique_together는 '함께 유일해야 하는 필드의 쌍'을 의미한다. A 유저가 B 게시글에 누른 좋아요가 중복될 수는 없으니까.

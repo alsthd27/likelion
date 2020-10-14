@@ -1,6 +1,7 @@
 # render는 '템플릿을 불러오는 것', redirect는 'URL로 이동하는 것(해당 URL의 views 함수를 실행하는 것)'.
 from django.shortcuts import render, redirect, get_object_or_404 # "django.shortcuts 패키지에 있는 render 함수 등을 사용하로독 하겄따잉!"
 from .models import *
+from django.contrib.auth.decorators import login_required # @login_required 데코레이터를 사용하기 위해 import.
 
 # 함수와 함수 사이는 두 줄 간격이 좋다!
 # 프로그래밍에서 =는 같다는 뜻이 아니라 대입한다는 뜻!!!!! 같다는 의미로 사용할 땐 ==를 쓴다.
@@ -87,3 +88,16 @@ def delete(request, post_id):
     post = get_object_or_404(Post, pk=post_id)
     post.delete()
     return redirect('blog:main')
+
+
+@login_required
+def post_like(request, post_id):
+    post = get_object_or_404(Post, pk=post_id)
+    if request.user in post.like_user_set.all():
+        post.like_user_set.remove(request.user)
+    else:
+        post.like_user_set.add(request.user)
+    if request.GET.get('redirect_to') == 'show':
+        return redirect('blog:show', post_id)
+    else:
+        return redirect('blog:main')
