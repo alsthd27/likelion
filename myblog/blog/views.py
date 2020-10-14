@@ -6,7 +6,11 @@ from .models import *
 # 프로그래밍에서 =는 같다는 뜻이 아니라 대입한다는 뜻!!!!! 같다는 의미로 사용할 땐 ==를 쓴다.
 
 def main(request): # "이걸 main이라는 함수로 명명하겠다! request를 인자로 받는다!"
-    all_posts = Post.objects.all() # "Post 클래스의 모든 항목들을 all_posts(변수)라고 부르겠다!"
+    '''
+    "Post 클래스의 모든 항목들을 all_posts(변수)라고 부르겠다!"
+    order_by('-created_at')은 최신 생성순(내림차순)으로 정렬하겠다는 것.
+    '''
+    all_posts = Post.objects.all().order_by('-created_at')
     # Django에서 render의 세 번째 인자는 Python의 딕셔너리 타입 값을 넣어줘야 함.
     return render(request, 'blog/main.html', {'posts': all_posts}) # "request의 변수(all_posts)를 posts라는 이름으로 명명하고, 해당 request를 render 함수를 활용해 blog/main.html으로 return하겠다!"
 
@@ -64,7 +68,7 @@ def show(request, post_id): # 특정 글을 가져오려면 해당 글의 고유
     '''
     post.view_count += 1
     post.save()
-    all_comments = post.comments.all() # Comment 모델링할 때 related_name으로 설정했던 그 comments를 쓴 것.
+    all_comments = post.comments.all().order_by('-created_at') # Comment 모델링할 때 related_name으로 설정했던 그 comments를 쓴 것.
     return render(request, 'blog/show.html', {'post': post, 'comments': all_comments})
 
 
