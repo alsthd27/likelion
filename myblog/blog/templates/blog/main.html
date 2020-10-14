@@ -12,6 +12,7 @@
                     <div class="card-body">
                         <!-- html에서 변수를 띄우는 방법: 템플릿 태그를 쓴다. -->
                         <h5 class="card-title">{{ post.title }}</h5>
+                        <p>조회수 : {{ post.view_count }}</p>
                         <!-- urls.py의 show에 있는 <int:post_id> 값이 URL에 입력될 수 있도록 템플릿 태그 뒷 부분에 post.pk를 붙여줌. post.id라고 써도 됨. -->
                         <a href="{% url 'blog:show' post.pk %}" class="btn btn-primary">상세 보기</a>
                     </div>
