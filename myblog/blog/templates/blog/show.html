@@ -6,7 +6,11 @@
     <h1>글 #{{ post.id }} 상세 보기</h1>
     <h3>글 제목 : {{ post.title }}</h3>
     {% if post.writer %} <!-- User 모델 사용 전에 작성된 게시글은 유저가 없다고 봐야하므로 if문 활용. -->
-    <h3>작성자 : {{ post.writer }}</h3>
+        {% if post.writer.username == 'user' %}
+        <h3>작성자 : {{ post.writer.last_name }}{{ post.writer.first_name }}</h3>
+        {% else %}
+        <h3>작성자: {{ post.writer }}</h3>
+        {% endif %}
     {% else %}
     <h3>작성자 : 알 수 없음</h3>
     {% endif %}
@@ -38,7 +42,13 @@
     {% for comment in comments %}
         <div class="card">
             <div class="card-body">
-                <b>{{ comment.writer }}</b> : {{ comment.content }}<br>
+                <b>
+                    {% if comment.writer.username == 'user' %}
+                    {{ comment.writer.last_name }}{{ comment.writer.first_name }}
+                    {% else %}
+                    {{ comment.writer }}
+                    {% endif %}
+                </b> : {{ comment.content }}<br>
                 <small>{{ comment.created_at }} 작성 │</small>
                 <small>{{ comment.updated_at }} 수정</small>
             </div>

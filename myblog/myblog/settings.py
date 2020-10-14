@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'allauth', # Django-allauth 관련 앱
     'allauth.account', # 가입된 계정 관리
     'allauth.socialaccount', # 소셜계정으로 가입된 계정 관리
+    'allauth.socialaccount.providers.google' # 소셜로그인 제공업체 '구글' 등록
 ]
 
 # 뭔지 잘 몰겄지만 보안 관련 프레임워크~
