@@ -2,6 +2,7 @@
 from django.shortcuts import render, redirect, get_object_or_404 # "django.shortcuts 패키지에 있는 render 함수 등을 사용하로독 하겄따잉!"
 from .models import *
 from django.contrib.auth.decorators import login_required # @login_required 데코레이터를 사용하기 위해 import.
+from .forms import PostForm
 
 # 함수와 함수 사이는 두 줄 간격이 좋다!
 # 프로그래밍에서 =는 같다는 뜻이 아니라 대입한다는 뜻!!!!! 같다는 의미로 사용할 땐 ==를 쓴다.
@@ -20,7 +21,17 @@ def new(request):
     return render(request, 'blog/new.html')
 
 
+@login_required
 def create(request):
+    if request.method == "POST":
+        form = PostForm(request.POST, request.FILES.get('image'))
+        if form.is_valid():
+            form.save(user = request.user)
+            return redirect('blog:main')
+    else:
+        form = PostForm()
+        return render(request, 'blog/post_form.html', {'form': form})
+    '''
     if request.method == "POST":
         post_title = request.POST.get('title')
         post_writer = request.user # 요청을 보낸 user의 정보!
@@ -29,6 +40,7 @@ def create(request):
         # =의 왼쪽은 Post 모델의 속성, =의 오른쪽은 해당 속성에 들어갈 변수 이름
         Post.objects.create(title=post_title, writer=post_writer, content=post_content, image=post_image)
     return redirect('blog:main') # blog:main이라는 URL로 이동 -> blog.views에서 main 함수 실행 -> blog/main.html을 render
+    '''
 
 
 def create_comment(request, post_id):
@@ -73,8 +85,17 @@ def show(request, post_id): # 특정 글을 가져오려면 해당 글의 고유
     return render(request, 'blog/show.html', {'post': post, 'comments': all_comments})
 
 
+@login_required
 def update(request, post_id):
     post = get_object_or_404(Post, pk=post_id) # get_object_or_404는 해당 객체가 존재하면 불러오고 존재하지 않으면 404 에러를 낸다.
+    form = PostForm(instance=post)
+    if request.method == "POST":
+        form = PostForm(request.POST, request.FILES.get('image'), instance=post)
+        if form.is_valid():
+            form.save(user = request.user)
+        return redirect('blog:show', post.pk)
+    return render(request, 'blog/post_form.html', {'form': form})
+    '''
     if request.method == "POST":
         post.title = request.POST['title'] # 딕셔너리 자료형으로서 'key에 해당하는 value를 가져오는 방법'은 두 가지가 있다. 하나는 변수명.get('key')이고 다른 하나는 변수명['key']이다.
         post.content = request.POST['content']
@@ -82,6 +103,7 @@ def update(request, post_id):
         post.save()
         return redirect('blog:show', post.pk)
     return render(request, 'blog/edit.html', {'post': post})
+    '''
 
 
 def delete(request, post_id):
