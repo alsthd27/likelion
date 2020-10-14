@@ -21,8 +21,30 @@ def create(request):
         post_writer = request.user # 요청을 보낸 user의 정보!
         post_content = request.POST.get('content')
         post_image = request.FILES.get('image')
+        # =의 왼쪽은 Post 모델의 속성, =의 오른쪽은 해당 속성에 들어갈 변수 이름
         Post.objects.create(title=post_title, writer=post_writer, content=post_content, image=post_image)
     return redirect('blog:main') # blog:main이라는 URL로 이동 -> blog.views에서 main 함수 실행 -> blog/main.html을 render
+
+
+def create_comment(request, post_id):
+    if request.method == "POST":
+        post = get_object_or_404(Post, pk=post_id)
+        comment_writer = request.user
+        comment_content = request.POST.get('content')
+        Comment.objects.create(writer=comment_writer, content=comment_content, post=post)
+        # return redirect('blog:show', post.pk)
+    return redirect('blog:show', post_id)
+    '''
+    return redirect('blog:show', post.pk)가 아니라
+    return redirect('blog:show', post_id)인 이유는?!
+
+    만약에 post.id로 작성을 하면, POST 방식의 요청이 아닌 경우에는 post에 게시글이 담기질 않으니 post.id를 사용할 수 없는 상태가 된다.
+    따라 에러가 발생하게 되므로 유저가 당황하지 않도록 post.pk가 아닌 요청에서 받아온 post_id를 그대로 작성한 것.
+
+        return redirect('blog:show', post.pk)
+    return redirect('blog:show', post_id)
+    이렇게 써도 되긴 하는데, 굳이 이렇게 쓸 필요가 없는 것.
+    '''
 
 
 def show(request, post_id): # 특정 글을 가져오려면 해당 글의 고유 id를 알아야겠지??
