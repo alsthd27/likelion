@@ -2,6 +2,7 @@
 
 {% block content %}
 <div class="container">
+    {% if user.is_authenticated %} <!-- user.is_authenticated가 True일 경우에만 아래 코드 실행됨. -->
     <h1>글 목록</h1>
     <div class="row">
         <!-- views.py의 main 함수에서 Post의 모든 객체를 all_posts라는 변수에 담고, 그걸 posts라 명명했던 거 기억나졔~~~~??? -->
@@ -18,5 +19,10 @@
             </div>
         {% endfor %}
     </div>
+    {% else %} <!-- user.is_authenticated가 False일 경우엔 위 코드 실행 안 되고 바로 아래 코드가 실행됨. -->
+    <h3>로그인 후 이용이 가능합니다.</h3>
+    <a href="{% url 'account_login' %}" class="btn btn-warning">로그인</a>
+    <a href="{% url 'account_signup' %}" class="btn btn-warning">회원가입</a>
+    {% endif %} <!-- user.is_authenticated if문 종료 -->
 </div>
 {% endblock %}

@@ -44,6 +44,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'blog',
+    'django.contrib.sites', # migrate 할 때 필요
+    'allauth', # Django-allauth 관련 앱
+    'allauth.account', # 가입된 계정 관리
+    'allauth.socialaccount', # 소셜계정으로 가입된 계정 관리
 ]
 
 # 뭔지 잘 몰겄지만 보안 관련 프레임워크~
@@ -130,5 +134,14 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'myblog', 'static')
 ]
 
+# static은 정적파일(사이트관리자가 미리 업로드하는 파일), media는 동적파일(유저가 업로드하는 파일)
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'myblog', 'media')
+
+
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend', # 사이트관리자가 생성한 superuser로 로그인할 수 있게 해줌.
+    'allauth.account.auth_backends.AuthenticationBackend', # 이메일로 로그인하기 등 Django-allauth에서 제공하는 인증방식
+]
+SITE_ID = 1 # DB 테이블에 있는 현 사이트 값 (기본값 = 1)
+LOGIN_REDIRECT_URL = '/' # 유저가 로그인하면 리다이렉트 해 줄 URL (기본값 = /accounts/profile/)

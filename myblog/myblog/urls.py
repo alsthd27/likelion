@@ -21,7 +21,9 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 
+# path 추가할 때마다 URL 끝에 '/'까지~!!!~~!!~
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('blog.urls')),
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    path('accounts/', include('allauth.urls')),
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) # settings.py에서 설정했던 media 파일 보관경로
