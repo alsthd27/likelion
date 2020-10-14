@@ -64,7 +64,8 @@ def show(request, post_id): # 특정 글을 가져오려면 해당 글의 고유
     '''
     post.view_count += 1
     post.save()
-    return render(request, 'blog/show.html', {'post': post})
+    all_comments = post.comments.all() # Comment 모델링할 때 related_name으로 설정했던 그 comments를 쓴 것.
+    return render(request, 'blog/show.html', {'post': post, 'comments': all_comments})
 
 
 def update(request, post_id):
